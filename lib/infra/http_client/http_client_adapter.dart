@@ -22,7 +22,7 @@ class HttpClientAdapter implements IHttpClient {
       if (method == 'get') response = await client.get(url, headers: headers);
       return _handleResponse(response);
     } catch (error) {
-      throw HttpError.serverError;
+      throw error;
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gitlist/ui/pages/home/home_presenter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,9 +10,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('GitList'),
+      ),
       body: FutureBuilder(
           future: homePresenter.getGitContentList(),
           builder: (context, snapshot) {
+            if (snapshot.hasError && snapshot.error != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) => Get.snackbar(
+                  'Error', snapshot.error.toString(),
+                  backgroundColor: Colors.white));
+              return Container();
+            }
             if (this.homePresenter.gitContentList.length == 0)
               return Center(child: CircularProgressIndicator());
             return ListView.builder(

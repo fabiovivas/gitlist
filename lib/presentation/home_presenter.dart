@@ -4,7 +4,7 @@ import 'package:gitlist/ui/pages/home/home_presenter.dart';
 import 'package:meta/meta.dart';
 import 'package:gitlist/domain/usecases/list_git_content.dart';
 
-class HomePresenter implements IHomePresenter{
+class HomePresenter implements IHomePresenter {
   final IListGitContent listGitContent;
   List<GitContentViewModel> gitContentList = [];
 
@@ -13,13 +13,16 @@ class HomePresenter implements IHomePresenter{
   Future<void> getGitContentList() async {
     try {
       var result = await listGitContent.getGitContent();
-      gitContentList = result.map<GitContentViewModel>((item) => GitContentViewModel(
-          avatar: item.avatar,
-          linkRepo: item.linkRepo,
-          nameUser: item.nameUser,
-          repo: item.repo)).toList();
+
+      gitContentList = result
+          .map<GitContentViewModel>((item) => GitContentViewModel(
+              avatar: item.avatar,
+              linkRepo: item.linkRepo,
+              nameUser: item.nameUser,
+              repo: item.repo))
+          .toList();
     } catch (error) {
-      print(error);
+      throw error;
     }
   }
 }
